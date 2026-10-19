@@ -227,6 +227,11 @@ const BacktestPage: React.FC = () => {
 
   return (
     <div className="min-h-screen flex flex-col">
+      <p className="px-4 py-3 text-sm text-amber-300" role="note">
+        Research advice scoring: uses the analysis-date close, which may precede publication.
+        Returns exclude fees and slippage. These are hypothetical gross results, not executable
+        portfolio performance or broker fills.
+      </p>
       {/* Header */}
       <header className="flex-shrink-0 px-4 py-3 border-b border-white/5">
         <div className="flex items-center gap-2 max-w-4xl">

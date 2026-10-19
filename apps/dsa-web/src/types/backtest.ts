@@ -13,7 +13,14 @@ export interface BacktestRunRequest {
   limit?: number;
 }
 
-export interface BacktestRunResponse {
+export interface ResearchEvaluationBasis {
+  evaluationKind: 'advice_score_gross';
+  entryPriceBasis: 'analysis_date_close';
+  publicationTimeVerified: false;
+  costsIncluded: false;
+}
+
+export interface BacktestRunResponse extends ResearchEvaluationBasis {
   processed: number;
   saved: number;
   completed: number;
@@ -23,7 +30,7 @@ export interface BacktestRunResponse {
 
 // ============ Result Item ============
 
-export interface BacktestResultItem {
+export interface BacktestResultItem extends ResearchEvaluationBasis {
   analysisHistoryId: number;
   code: string;
   analysisDate?: string;
@@ -54,7 +61,7 @@ export interface BacktestResultItem {
   simulatedReturnPct?: number;
 }
 
-export interface BacktestResultsResponse {
+export interface BacktestResultsResponse extends ResearchEvaluationBasis {
   total: number;
   page: number;
   limit: number;
@@ -63,7 +70,7 @@ export interface BacktestResultsResponse {
 
 // ============ Performance Metrics ============
 
-export interface PerformanceMetrics {
+export interface PerformanceMetrics extends ResearchEvaluationBasis {
   scope: string;
   code?: string;
   evalWindowDays: number;

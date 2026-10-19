@@ -51,6 +51,10 @@ export const backtestApi = {
 
     const data = toCamelCase<BacktestResultsResponse>(response.data);
     return {
+      evaluationKind: data.evaluationKind,
+      entryPriceBasis: data.entryPriceBasis,
+      publicationTimeVerified: data.publicationTimeVerified,
+      costsIncluded: data.costsIncluded,
       total: data.total,
       page: data.page,
       limit: data.limit,
