@@ -3,7 +3,7 @@
 
 from __future__ import annotations
 
-from typing import Any, Dict, List, Optional
+from typing import Any, Dict, List, Literal, Optional
 
 from pydantic import BaseModel, Field
 
@@ -16,7 +16,14 @@ class BacktestRunRequest(BaseModel):
     limit: int = Field(200, ge=1, le=2000, description="最多处理的分析记录数")
 
 
-class BacktestRunResponse(BaseModel):
+class ResearchEvaluationBasis(BaseModel):
+    evaluation_kind: Literal["advice_score_gross"] = "advice_score_gross"
+    entry_price_basis: Literal["analysis_date_close"] = "analysis_date_close"
+    publication_time_verified: Literal[False] = False
+    costs_included: Literal[False] = False
+
+
+class BacktestRunResponse(ResearchEvaluationBasis):
     processed: int = Field(..., description="候选记录数")
     saved: int = Field(..., description="写入回测结果数")
     completed: int = Field(..., description="完成回测数")
@@ -24,7 +31,7 @@ class BacktestRunResponse(BaseModel):
     errors: int = Field(..., description="错误数")
 
 
-class BacktestResultItem(BaseModel):
+class BacktestResultItem(ResearchEvaluationBasis):
     analysis_history_id: int
     code: str
     analysis_date: Optional[str] = None
@@ -55,14 +62,14 @@ class BacktestResultItem(BaseModel):
     simulated_return_pct: Optional[float] = None
 
 
-class BacktestResultsResponse(BaseModel):
+class BacktestResultsResponse(ResearchEvaluationBasis):
     total: int
     page: int
     limit: int
     items: List[BacktestResultItem] = Field(default_factory=list)
 
 
-class PerformanceMetrics(BaseModel):
+class PerformanceMetrics(ResearchEvaluationBasis):
     scope: str
     code: Optional[str] = None
     eval_window_days: int
@@ -91,4 +98,3 @@ class PerformanceMetrics(BaseModel):
 
     advice_breakdown: Dict[str, Any] = Field(default_factory=dict)
     diagnostics: Dict[str, Any] = Field(default_factory=dict)
-
